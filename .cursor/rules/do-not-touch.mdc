@@ -1,0 +1,14 @@
+---
+description: "Protected files that should not be modified"
+alwaysApply: true
+---
+# Protected Files
+NEVER modify these files without explicit approval:
+- `src/core/renderer.ts` — render pipeline
+- `src/data/restore.ts` — file format compatibility
+- `src/actions/manager.ts` — action dispatch system
+- `src/types.ts` — core type definitions
+Changes to protected files require:
+1. Full understanding of dependencies
+2. Running complete test suite
+3. Manual QA verification
