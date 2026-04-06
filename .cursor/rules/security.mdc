@@ -1,0 +1,28 @@
+---
+description: "Security-sensitive patterns for app and editor code"
+globs: "excalidraw-app/**,packages/excalidraw/**"
+alwaysApply: false
+---
+# Security
+
+## Secrets and config
+- Never commit API keys, Firebase config secrets, or private tokens. Use env vars / existing `.env.*` patterns and deployment configuration — not hardcoded strings in source.
+- Do not log collaboration payloads, room IDs, or user identifiers to `console` in production paths.
+
+## Untrusted data
+- Treat imported `.excalidraw` JSON, URL params, clipboard payloads, and collaborator messages as **untrusted**. Validate shape and size before use; prefer existing restore/validation paths in `packages/excalidraw/data/`.
+- Avoid `eval`, `new Function`, and dynamic script injection. If embedding or HTML is required, follow existing embeddable / iframe patterns only.
+
+## Web and DOM
+- Avoid `dangerouslySetInnerHTML` unless it matches an existing audited pattern; never interpolate raw user strings into HTML.
+- For `postMessage` / cross-origin flows, validate `event.origin` and message shape (follow existing collaboration / embed code).
+
+## Dependencies
+- No new dependencies for parsing or crypto without explicit review (`package.json` / team approval).
+
+## How to verify
+
+- `yarn test:all` — ensure no regressions in data/import flows and app code.
+- `yarn test:code` — ESLint may flag risky patterns depending on rules; fix or justify.
+- Manual review: search changed files for `eval`, `new Function`, `dangerouslySetInnerHTML`, and raw `postMessage` handlers without origin checks.
+- Confirm no secrets in diff: run `git diff` and ensure no new hardcoded keys or tokens.

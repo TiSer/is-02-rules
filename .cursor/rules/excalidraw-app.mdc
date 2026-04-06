@@ -1,0 +1,28 @@
+---
+description: "Host app (Vite shell) — not the core editor package"
+globs: "excalidraw-app/**"
+alwaysApply: false
+---
+# excalidraw-app (host application)
+
+## Role
+- This package is the **deployed web shell** (Vite, PWA, collaboration hooks, Firebase, etc.). Core drawing logic lives in `packages/excalidraw/` — avoid duplicating editor behavior here.
+
+## State
+- App-level UI may use local patterns (e.g. Jotai in this repo). Do **not** introduce Redux/Zustand for editor state; editor state stays in Excalidraw’s `actionManager` / app state (`packages/excalidraw`).
+
+## Build and run
+- Dev server: `yarn start` from monorepo root (runs this package’s `start` script).
+- Prefer `yarn --cwd excalidraw-app` only when docs/scripts already use that form.
+
+## Networking
+- Socket / collaboration / storage integrations: preserve error handling, reconnection, and privacy assumptions; do not weaken E2E or room behavior without explicit product review.
+
+## Dependencies
+- No new npm packages without explicit approval (see root `package.json` / team process).
+
+## How to verify
+
+- `yarn start` — dev server loads; exercise collaboration/PWA features if relevant to your change.
+- `yarn build` or `yarn build:app` — production build succeeds when your change affects bundling or env.
+- `yarn test:all` — full repo checks before PR.

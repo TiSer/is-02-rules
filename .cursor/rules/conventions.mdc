@@ -13,4 +13,10 @@ alwaysApply: false
 - Strict mode — no `any`, no `@ts-ignore`
 - Prefer `type` over `interface` for simple types
 - Import types: `import type { X } from "..."`
-## Files
+
+## How to verify
+
+- `yarn test:typecheck` — TypeScript must pass (no `@ts-ignore` workarounds).
+- `yarn test:code` — ESLint must pass with `--max-warnings=0`.
+- `yarn test:other` — Prettier check on configured globs.
+- `yarn test:app --watch=false` — tests for touched components/utilities.

@@ -1,0 +1,25 @@
+---
+description: "Geometry and math packages — keep pure and dependency-light"
+globs: "packages/element/**,packages/math/**"
+alwaysApply: false
+---
+# packages/element and packages/math
+
+## Purpose
+- **`packages/math`**: numeric types, points, vectors — keep **framework-agnostic** (no React, no DOM APIs).
+- **`packages/element`**: element model, bindings, geometry helpers — consumed by the editor; avoid circular imports and keep public APIs stable.
+
+## Performance
+- Hot paths run frequently during pointer moves and rendering. Prefer small allocations, avoid unnecessary object churn, and match existing patterns for immutability vs mutation.
+
+## Testing
+- Unit-test math and geometry edge cases (degenerate shapes, zero length, NaN guards) when changing behavior.
+
+## Dependencies
+- Do not pull `react`, `excalidraw-app`, or heavy UI libraries into these packages. No new npm deps without approval.
+
+## How to verify
+
+- `yarn test:typecheck` — `tsc` must pass for all workspace references.
+- `yarn test:app --watch=false` — run Vitest after changing tests or behavior.
+- `yarn build:math && yarn build:element` — ESM builds succeed when public exports or entrypoints change.

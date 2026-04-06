@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## State Management
 - Custom state via actionManager — NOT Redux/Zustand/MobX
-- State updates: actionManager.dispatch() ONLY
+- State updates: use `actionManager.executeAction(...)` (and related `ActionManager` APIs) — not a `dispatch()` method; `ActionManager` is defined in `packages/excalidraw/actions/manager.tsx`
 - State type: AppState (`packages/excalidraw/types.ts`)
 
 ## Rendering
@@ -18,3 +18,10 @@ alwaysApply: false
 
 ## Dependencies
 - No new npm packages without explicit approval
+
+## How to verify
+
+- `yarn test:all` — full gate (typecheck, ESLint, Prettier, Vitest once).
+- `yarn start` — smoke-test the editor: drawing, undo/redo, export; confirm canvas-based (not DOM-rendered scene).
+- Search for forbidden stacks: no new `redux` / `zustand` / `mobx` / `react-konva` / `fabric` / `pixi` imports in `packages/*` unless explicitly approved.
+- Confirm action API: `ActionManager` exposes `executeAction` in `packages/excalidraw/actions/manager.tsx` — there is no `actionManager.dispatch` in this repo (`rg 'actionManager\\.dispatch' packages/excalidraw` should be empty).

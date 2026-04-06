@@ -1,0 +1,28 @@
+---
+description: "Vitest tests and test helpers for this monorepo"
+globs: "packages/**/*.test.ts,packages/**/*.test.tsx,packages/**/tests/**/*.ts,packages/**/tests/**/*.tsx"
+alwaysApply: false
+---
+# Testing (Vitest)
+
+## Runner and config
+- Root config: `vitest.config.mts` (aliases `@excalidraw/*` — use them in tests like production code).
+- From repo root: `yarn test` (watch), `yarn test:app --watch=false` (single run), `yarn test:all` before PRs.
+
+## Conventions
+- Colocate tests as `*.test.ts` / `*.test.tsx` next to source when that matches existing patterns; integration suites often live under `packages/*/tests/`.
+- Prefer existing helpers from `packages/excalidraw/tests/helpers/` (e.g. `API` helpers) instead of duplicating setup.
+- Use `vitest-canvas-mock` / jsdom behavior already configured — do not add alternate test environments without a strong reason.
+- Avoid `any` in tests; use `import type` and real types from `@excalidraw/*` packages.
+
+## Snapshots and updates
+- Only update snapshots when output changes are intentional: `yarn test:update` (or Vitest `-u`), then review diffs carefully.
+
+## Scope
+- Keep tests deterministic (no real network, no reliance on wall-clock timing without fake timers).
+
+## How to verify
+
+- `yarn test:app --watch=false` — full Vitest run once (matches CI’s `test:app` step).
+- `yarn test:all` — before PR: includes typecheck, ESLint, Prettier, and Vitest.
+- For a single file: `yarn test:app -- run path/to/file.test.tsx` (from repo root; Vitest uses `vitest.config.mts`).

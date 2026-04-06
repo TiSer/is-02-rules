@@ -1,0 +1,25 @@
+---
+description: "Import/export, restore, and file-format compatibility"
+globs: "packages/excalidraw/data/**"
+alwaysApply: false
+---
+# Data layer (`packages/excalidraw/data`)
+
+## Compatibility
+- `.excalidraw` and library formats are **user data contracts**. Prefer extending with versioned migration steps instead of breaking existing files.
+- `restore.ts` and related flows are especially sensitive — coordinate with `.cursor/rules/do-not-touch.mdc` before large edits.
+
+## Validation
+- Validate incoming data shape and reject or normalize unknown fields rather than assuming trust.
+
+## Side effects
+- File IO, encryption, and backend calls must preserve existing privacy and error semantics; do not silently drop user content.
+
+## Testing
+- Add or update tests when changing serialization, migration, or restore behavior; run `yarn test:all` before merge.
+
+## How to verify
+
+- `yarn test:all` — typecheck, lint, prettier, and Vitest (including data/restore tests).
+- `yarn test:app --watch=false` — focused pass if you only touched tests under `packages/excalidraw/data/`.
+- Manual: load old `.excalidraw` samples, export/re-import, and open library flows if library/JSON handling changed.

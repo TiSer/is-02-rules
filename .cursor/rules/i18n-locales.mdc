@@ -1,0 +1,25 @@
+---
+description: "Translations and locale JSON files"
+globs: "packages/excalidraw/locales/**"
+alwaysApply: false
+---
+# i18n (locales)
+
+## Files
+- Locale data lives in `packages/excalidraw/locales/*.json`. **`en.json` is the source of truth** for keys; other locales follow the same key structure.
+
+## Editing rules
+- Add or change **English strings in `en.json` first**, then mirror keys in other locale files only when the workflow expects it (often Crowdin syncs translations — do not bulk-edit all languages by hand without process).
+- Preserve JSON validity (trailing commas are invalid). Run format check: `yarn test:other` (Prettier) if unsure.
+
+## Code usage
+- Use the project’s existing i18n helpers / `t(...)` patterns from application code — do not concatenate translated strings in a way that breaks grammar for RTL or plural languages when avoidable.
+
+## Coverage
+- For key churn, `locales-coverage` scripts exist at repo root (`yarn locales-coverage`) — use when required by contribution guidelines.
+
+## How to verify
+
+- `yarn test:other` — Prettier check includes locale JSON; invalid JSON will fail earlier or in tooling.
+- `yarn locales-coverage` — when adding or renaming keys (per contribution guidelines).
+- `yarn start` — smoke-test UI paths that use new/changed strings (language switch if applicable).
