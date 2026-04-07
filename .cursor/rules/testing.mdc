@@ -1,5 +1,5 @@
 ---
-description: "Vitest tests and test helpers for this monorepo"
+description: "Vitest tests and test helpers for packages scope"
 globs: "packages/**/*.test.ts,packages/**/*.test.tsx,packages/**/tests/**/*.ts,packages/**/tests/**/*.tsx"
 alwaysApply: false
 ---

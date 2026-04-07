@@ -17,6 +17,10 @@ alwaysApply: false
 - Avoid `dangerouslySetInnerHTML` unless it matches an existing audited pattern; never interpolate raw user strings into HTML.
 - For `postMessage` / cross-origin flows, validate `event.origin` and message shape (follow existing collaboration / embed code).
 
+## Collaboration and Firebase
+- Do not bypass or weaken end-to-end collaboration encryption behavior without explicit security review.
+- Do not change Firebase security rules/policies without explicit review and documented rationale.
+
 ## Dependencies
 - No new dependencies for parsing or crypto without explicit review (`package.json` / team approval).
 
