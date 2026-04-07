@@ -14,9 +14,14 @@ alwaysApply: false
 - Prefer `type` over `interface` for simple and props object types
 - Import types: `import type { X } from "..."`
 
+## Excalidraw-specific
+- Prefer `@excalidraw/*` package imports (or direct relative module imports) over barrel shortcuts that break package boundaries.
+- Do not import `jotai` directly in package code; use project-specific modules (`editor-jotai` / `app-jotai`) where applicable.
+
 ## How to verify
 
 - `yarn test:typecheck` — TypeScript must pass (no `@ts-ignore` workarounds).
-- `yarn test:code` — ESLint must pass with `--max-warnings=0`.
+- `yarn test:code` — ESLint must pass with `--max-warnings=0` (includes restricted-import checks).
+- `rg "^\s*export\s+default\s+" packages --glob "*.{ts,tsx}"` — should return no new matches in changed files.
 - `yarn test:other` — Prettier check on configured globs.
 - `yarn test:app --watch=false` — tests for touched components/utilities.
